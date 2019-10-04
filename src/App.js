@@ -23,7 +23,7 @@ function App() {
   // alert
   const [alert, setAlert] = useState({ show: false })
 
-  // ************************ functionality ************************
+  // ************* functionality *******************
   const handleCharge = e => {
     setCharge(e.target.value)
   }
@@ -50,9 +50,25 @@ function App() {
     } else {
       handleAlert({
         type: 'danger',
-        text: `charge can't be an empty and amount has to be greater than 0`
+        text: `charge can not be empty and amount has to be greater than 0`
       })
     }
+  }
+
+  const clearItems = () => {
+    setExpenses([])
+    handleAlert({ type: 'danger', text: 'all items deleted' })
+  }
+
+  const handleDelete = id => {
+      let tempExpenses = expenses.filter(item => item.id !== id)
+      setExpenses(tempExpenses)
+      handleAlert({ type: 'danger', text: 'item deleted' })
+    }
+
+
+  const handleEdit = id => {
+    console.log(`item edited : ${id}`)
   }
 
   return (
@@ -68,7 +84,12 @@ function App() {
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
         />
-        <ExpenseList expenses={expenses} />
+        <ExpenseList
+          expenses={expenses}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          clearItems={clearItems}
+        />
       </main>
       <h1>
         total spending :{' '}
